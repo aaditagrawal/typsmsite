@@ -1,39 +1,46 @@
-# Astro + React + TypeScript + shadcn/ui (Monorepo)
+# typsmthng website
 
-This is a monorepo template for Astro with React, TypeScript, and shadcn/ui.
+Product showcase website for [typsmthng](https://typsmthng.coolstuff.work) - a modern Typst editor for the web and desktop.
+
+## Stack
+
+- [Astro](https://astro.build) // static site generation
+- [React](https://react.dev) // interactive components
+- [Tailwind CSS 4](https://tailwindcss.com) // styling
+- [Motion](https://motion.dev) // scroll animations
+- [shadcn/ui](https://ui.shadcn.com) // component primitives
 
 ## Structure
 
-- `apps/web` - Astro application
-- `packages/ui` - Shared UI components (shadcn/ui)
-
-## Adding components
-
-To add components, run the following command from the root:
-
-```bash
-npx shadcn@latest add button -c apps/web
+```
+apps/web/          # Astro site
+  src/
+    components/    # React components (navbar, hero, features, etc.)
+    layouts/       # Astro layouts
+    pages/         # Routes
+  public/
+    screenshots/   # Product screenshots
+packages/ui/       # Shared UI components + design tokens
+  src/
+    styles/        # globals.css with theme tokens
+    components/    # shadcn/ui components
 ```
 
-## Using components
+## Development
 
-To use the components in your app, import them in an `.astro` file:
+```bash
+bun install
+bun run dev
+```
 
-```astro
----
-import { Button } from "@workspace/ui/components/button"
----
+## Build
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Astro App</title>
-  </head>
-  <body>
-    <div class="grid h-screen place-items-center content-center">
-      <Button>Button</Button>
-    </div>
-  </body>
-</html>
+```bash
+bun run build
+```
+
+## Adding shadcn/ui components
+
+```bash
+bunx shadcn@latest add <component> -c apps/web
 ```
