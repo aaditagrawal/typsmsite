@@ -1,3 +1,5 @@
+import * as stylex from "@stylexjs/stylex"
+import { styles } from "../styles/site.stylex"
 import { motion } from "motion/react"
 
 interface ScreenshotGlowProps {
@@ -6,10 +8,14 @@ interface ScreenshotGlowProps {
   className?: string
 }
 
-export function ScreenshotGlow({ src, alt, className = "" }: ScreenshotGlowProps) {
+export function ScreenshotGlow({
+  src,
+  alt,
+  className = "",
+}: ScreenshotGlowProps) {
   return (
     <motion.div
-      className={`relative ${className}`}
+      className={`${stylex.props(styles.screenshotWrapper).className} ${className}`}
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -17,9 +23,10 @@ export function ScreenshotGlow({ src, alt, className = "" }: ScreenshotGlowProps
     >
       {/* Glow effect */}
       <div
-        className="pointer-events-none absolute -inset-8 z-0"
+        {...stylex.props(styles.screenshotGlow)}
         style={{
-          background: "radial-gradient(ellipse at center, var(--brand-glow) 0%, transparent 70%)",
+          background:
+            "radial-gradient(ellipse at center, var(--brand-glow) 0%, transparent 70%)",
           filter: "blur(48px)",
           animation: "glow-pulse 4s ease-in-out infinite",
         }}
@@ -28,7 +35,7 @@ export function ScreenshotGlow({ src, alt, className = "" }: ScreenshotGlowProps
       <img
         src={src}
         alt={alt}
-        className="relative z-10 w-full border border-white/10"
+        {...stylex.props(styles.screenshotImage)}
         loading="lazy"
       />
     </motion.div>

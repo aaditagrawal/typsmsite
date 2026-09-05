@@ -1,3 +1,5 @@
+import * as stylex from "@stylexjs/stylex"
+import { styles } from "../styles/site.stylex"
 import { useEffect, useState } from "react"
 
 export function Navbar() {
@@ -10,46 +12,26 @@ export function Navbar() {
   }, [])
 
   return (
-    <nav
-      className={`fixed top-0 right-0 left-0 z-50 transition-all duration-200 ${
-        scrolled
-          ? "border-b border-white/5 bg-background/80 backdrop-blur-md"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <nav {...stylex.props(scrolled ? styles.navbarScrolled : styles.navbarTop)}>
+      <div {...stylex.props(styles.navbarContent)}>
         {/* Logo */}
-        <a href="/" className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center bg-brand text-brand-foreground text-sm font-bold">
-            t.
-          </div>
-          <span className="text-sm font-semibold tracking-tight">typsmthng</span>
+        <a href="/" {...stylex.props(styles.navbarLogo)}>
+          <div {...stylex.props(styles.navbarIcon)}>t.</div>
+          <span {...stylex.props(styles.navbarTitle)}>typsmthng</span>
         </a>
 
         {/* Links */}
-        <div className="hidden items-center gap-8 md:flex">
-          <a
-            href="#features"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
+        <div {...stylex.props(styles.navbarLinks)}>
+          <a href="#features" {...stylex.props(styles.navbarLink)}>
             Features
           </a>
-          <a
-            href="#web"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
+          <a href="#web" {...stylex.props(styles.navbarWebLink)}>
             Web
           </a>
-          <a
-            href="#desktop"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
+          <a href="#desktop" {...stylex.props(styles.navbarDesktopLink)}>
             Desktop
           </a>
-          <a
-            href="#cta"
-            className="bg-brand px-4 py-2 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90"
-          >
+          <a href="#cta" {...stylex.props(styles.navbarAction)}>
             Try it now
           </a>
         </div>
