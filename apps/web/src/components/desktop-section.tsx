@@ -12,6 +12,7 @@ const points = [
   "Offline-first // works without an internet connection",
 ]
 
+/** Present desktop capabilities, screenshot, and platform-aware download control. */
 export function DesktopSection() {
   return (
     <section id="desktop" {...stylex.props(styles.desktop)}>

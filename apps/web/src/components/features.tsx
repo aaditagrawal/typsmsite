@@ -134,6 +134,7 @@ const features = [
   },
 ]
 
+/** Render the responsive grid of editor capabilities. */
 export function Features() {
   return (
     <section id="features" {...stylex.props(styles.features)}>

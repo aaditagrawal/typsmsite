@@ -2,6 +2,7 @@ import * as stylex from "@stylexjs/stylex"
 import { styles } from "../styles/site.stylex"
 import { useEffect, useState } from "react"
 
+/** Keep section navigation fixed and apply its scrolled appearance. */
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
 

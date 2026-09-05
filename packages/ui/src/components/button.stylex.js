@@ -37,6 +37,9 @@ export const styles = stylex.create({
     color: "var(--secondary-foreground)",
   },
   variant_ghost: {},
+  // The original bg-destructive/10 + text-destructive uses this solid fallback.
+  // button-selectors.css restores its 10%/20% alpha when color-mix is supported.
+  // Keep the original foreground: changing it would break the verified 1:1 port.
   variant_destructive: {
     backgroundColor: "var(--destructive)",
     color: "var(--destructive)",

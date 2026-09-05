@@ -10,6 +10,7 @@ interface FeatureCardProps {
   index: number
 }
 
+/** Display one capability with the existing scroll-triggered reveal. */
 export function FeatureCard({
   icon,
   title,

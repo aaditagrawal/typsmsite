@@ -11,6 +11,7 @@ const points = [
   "Local-first // your documents stay in your browser",
 ]
 
+/** Present browser-editor capabilities and the web application link. */
 export function WebSection() {
   return (
     <section id="web" {...stylex.props(styles.web)}>

@@ -20,6 +20,7 @@ const fadeUp = {
   },
 }
 
+/** Render the introduction, primary actions, and editor preview. */
 export function Hero() {
   return (
     <section {...stylex.props(styles.hero)}>

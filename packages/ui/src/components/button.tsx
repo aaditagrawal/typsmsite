@@ -43,6 +43,7 @@ const sizes = {
   "icon-lg": styles["size_icon-lg"],
 }
 
+/** Compose the public button classes while retaining compound-state selectors. */
 function buttonVariants({
   variant = "default",
   size = "default",
@@ -60,6 +61,7 @@ function buttonVariants({
   )
 }
 
+/** Render a styled button or pass its attributes through the existing slot. */
 function Button({
   className,
   variant = "default",

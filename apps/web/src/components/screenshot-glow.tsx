@@ -8,6 +8,7 @@ interface ScreenshotGlowProps {
   className?: string
 }
 
+/** Reveal a lazy-loaded screenshot above its repeating glow animation. */
 export function ScreenshotGlow({
   src,
   alt,

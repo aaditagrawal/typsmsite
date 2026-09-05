@@ -3,6 +3,7 @@ import { styles } from "../styles/site.stylex"
 import { motion } from "motion/react"
 import { DownloadButton } from "./download-button"
 
+/** Render the final web and desktop actions with their existing reveal animation. */
 export function CtaSection() {
   return (
     <section id="cta" {...stylex.props(styles.cta)}>

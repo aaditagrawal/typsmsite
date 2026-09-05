@@ -43,6 +43,7 @@ const PLATFORMS: Record<Platform, PlatformInfo> = {
   },
 }
 
+/** Choose the initial download target after client hydration. */
 function detectPlatform(): Platform {
   if (typeof navigator === "undefined") return "macos-arm64"
 
@@ -76,6 +77,7 @@ interface DownloadButtonProps {
   className?: string
 }
 
+/** Resolve release assets and let visitors choose their desktop platform. */
 export function DownloadButton({
   variant = "outline",
   className = "",
