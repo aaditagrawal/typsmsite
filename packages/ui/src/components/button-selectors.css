@@ -1,0 +1,306 @@
+/* Preserve compound states and descendant rules that cannot be expressed by a single StyleX style.
+ * Variant exclusions retain the former class-merging behavior for focus colors and SVG sizes.
+ */
+/* State selectors must outrank StyleX static declarations, whose compiler adds specificity sentinels. */
+/* Compound states and descendant selectors retain their original cascade order. */
+.ui-button-variant-outline:not(#\#):not(#\#):not(#\#) {
+  background-color: var(--background);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-variant-destructive:not(#\#):not(#\#):not(#\#) {
+    background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):hover {
+    background-color: var(--destructive);
+  }
+}
+@media (hover: hover) {
+  @supports (color: color-mix(in lab, red, red)) {
+    .ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):hover {
+      background-color: color-mix(
+        in oklab,
+        var(--destructive) 20%,
+        transparent
+      );
+    }
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-outline:not(#\#):not(#\#):not(#\#):hover {
+    background-color: var(--muted);
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-ghost:not(#\#):not(#\#):not(#\#):hover {
+    background-color: var(--muted);
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-secondary:not(#\#):not(#\#):not(#\#):hover {
+    background-color: var(--secondary);
+  }
+}
+@media (hover: hover) {
+  @supports (color: color-mix(in lab, red, red)) {
+    .ui-button-variant-secondary:not(#\#):not(#\#):not(#\#):hover {
+      background-color: color-mix(in oklab, var(--secondary) 80%, transparent);
+    }
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-outline:not(#\#):not(#\#):not(#\#):hover {
+    color: var(--foreground);
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-ghost:not(#\#):not(#\#):not(#\#):hover {
+    color: var(--foreground);
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-link:not(#\#):not(#\#):not(#\#):hover {
+    text-decoration-line: underline;
+  }
+}
+.ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):focus-visible {
+  border-color: var(--destructive);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):focus-visible {
+    border-color: color-mix(in oklab, var(--destructive) 40%, transparent);
+  }
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#):focus-visible:where(
+    :not(.ui-button-variant-destructive:not(#\#):not(#\#):not(#\#))
+  ) {
+  border-color: var(--ring);
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#):focus-visible {
+  --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0
+    calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+  box-shadow:
+    var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+    var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):focus-visible {
+  --tw-ring-color: var(--destructive);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):focus-visible {
+    --tw-ring-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+  }
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#):focus-visible:where(
+    :not(.ui-button-variant-destructive:not(#\#):not(#\#):not(#\#))
+  ) {
+  --tw-ring-color: var(--ring);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-base:not(#\#):not(#\#):not(#\#):focus-visible:where(
+      :not(.ui-button-variant-destructive:not(#\#):not(#\#):not(#\#))
+    ) {
+    --tw-ring-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#):active {
+  --tw-translate-y: 1px;
+  translate: var(--tw-translate-x) var(--tw-translate-y);
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#):disabled {
+  pointer-events: none;
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#):disabled {
+  opacity: 0.5;
+}
+.ui-button-size-xs:not(#\#):not(#\#):not(#\#):has([data-icon="inline-end"]) {
+  padding-right: calc(var(--spacing) * 1.5);
+}
+.ui-button-size-sm:not(#\#):not(#\#):not(#\#):has([data-icon="inline-end"]) {
+  padding-right: calc(var(--spacing) * 1.5);
+}
+.ui-button-size-default:not(#\#):not(#\#):not(#\#):has(
+    [data-icon="inline-end"]
+  ) {
+  padding-right: calc(var(--spacing) * 2);
+}
+.ui-button-size-lg:not(#\#):not(#\#):not(#\#):has([data-icon="inline-end"]) {
+  padding-right: calc(var(--spacing) * 3);
+}
+.ui-button-size-xs:not(#\#):not(#\#):not(#\#):has([data-icon="inline-start"]) {
+  padding-left: calc(var(--spacing) * 1.5);
+}
+.ui-button-size-sm:not(#\#):not(#\#):not(#\#):has([data-icon="inline-start"]) {
+  padding-left: calc(var(--spacing) * 1.5);
+}
+.ui-button-size-default:not(#\#):not(#\#):not(#\#):has(
+    [data-icon="inline-start"]
+  ) {
+  padding-left: calc(var(--spacing) * 2);
+}
+.ui-button-size-lg:not(#\#):not(#\#):not(#\#):has([data-icon="inline-start"]) {
+  padding-left: calc(var(--spacing) * 3);
+}
+.ui-button-variant-outline:not(#\#):not(#\#):not(#\#)[aria-expanded="true"] {
+  background-color: var(--muted);
+}
+.ui-button-variant-ghost:not(#\#):not(#\#):not(#\#)[aria-expanded="true"] {
+  background-color: var(--muted);
+}
+.ui-button-variant-secondary:not(#\#):not(#\#):not(#\#)[aria-expanded="true"] {
+  background-color: var(--secondary);
+}
+.ui-button-variant-outline:not(#\#):not(#\#):not(#\#)[aria-expanded="true"] {
+  color: var(--foreground);
+}
+.ui-button-variant-ghost:not(#\#):not(#\#):not(#\#)[aria-expanded="true"] {
+  color: var(--foreground);
+}
+.ui-button-variant-secondary:not(#\#):not(#\#):not(#\#)[aria-expanded="true"] {
+  color: var(--secondary-foreground);
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#)[aria-invalid="true"] {
+  border-color: var(--destructive);
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#)[aria-invalid="true"] {
+  --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0
+    calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+  box-shadow:
+    var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+    var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#)[aria-invalid="true"] {
+  --tw-ring-color: var(--destructive);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-base:not(#\#):not(#\#):not(#\#)[aria-invalid="true"] {
+    --tw-ring-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+  }
+}
+.ui-button-variant-outline:not(#\#):not(#\#):not(#\#):is(.dark *) {
+  border-color: var(--input);
+}
+.ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):is(.dark *) {
+  background-color: var(--destructive);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):is(.dark *) {
+    background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+  }
+}
+.ui-button-variant-outline:not(#\#):not(#\#):not(#\#):is(.dark *) {
+  background-color: var(--input);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-variant-outline:not(#\#):not(#\#):not(#\#):is(.dark *) {
+    background-color: color-mix(in oklab, var(--input) 30%, transparent);
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):is(.dark *):hover {
+    background-color: var(--destructive);
+  }
+}
+@media (hover: hover) {
+  @supports (color: color-mix(in lab, red, red)) {
+    .ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):is(
+        .dark *
+      ):hover {
+      background-color: color-mix(
+        in oklab,
+        var(--destructive) 30%,
+        transparent
+      );
+    }
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-outline:not(#\#):not(#\#):not(#\#):is(.dark *):hover {
+    background-color: var(--input);
+  }
+}
+@media (hover: hover) {
+  @supports (color: color-mix(in lab, red, red)) {
+    .ui-button-variant-outline:not(#\#):not(#\#):not(#\#):is(.dark *):hover {
+      background-color: color-mix(in oklab, var(--input) 50%, transparent);
+    }
+  }
+}
+@media (hover: hover) {
+  .ui-button-variant-ghost:not(#\#):not(#\#):not(#\#):is(.dark *):hover {
+    background-color: var(--muted);
+  }
+}
+@media (hover: hover) {
+  @supports (color: color-mix(in lab, red, red)) {
+    .ui-button-variant-ghost:not(#\#):not(#\#):not(#\#):is(.dark *):hover {
+      background-color: color-mix(in oklab, var(--muted) 50%, transparent);
+    }
+  }
+}
+.ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):is(
+    .dark *
+  ):focus-visible {
+  --tw-ring-color: var(--destructive);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-variant-destructive:not(#\#):not(#\#):not(#\#):is(
+      .dark *
+    ):focus-visible {
+    --tw-ring-color: color-mix(in oklab, var(--destructive) 40%, transparent);
+  }
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#):is(.dark *)[aria-invalid="true"] {
+  border-color: var(--destructive);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-base:not(#\#):not(#\#):not(#\#):is(.dark *)[aria-invalid="true"] {
+    border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
+  }
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#):is(.dark *)[aria-invalid="true"] {
+  --tw-ring-color: var(--destructive);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ui-button-base:not(#\#):not(#\#):not(#\#):is(.dark *)[aria-invalid="true"] {
+    --tw-ring-color: color-mix(in oklab, var(--destructive) 40%, transparent);
+  }
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#) svg {
+  pointer-events: none;
+}
+.ui-button-base:not(#\#):not(#\#):not(#\#) svg {
+  flex-shrink: 0;
+}
+.ui-button-size-xs:not(#\#):not(#\#):not(#\#) svg:not([class*="size-"]) {
+  width: calc(var(--spacing) * 3);
+  height: calc(var(--spacing) * 3);
+}
+.ui-button-size-icon-xs:not(#\#):not(#\#):not(#\#) svg:not([class*="size-"]) {
+  width: calc(var(--spacing) * 3);
+  height: calc(var(--spacing) * 3);
+}
+.ui-button-size-sm:not(#\#):not(#\#):not(#\#) svg:not([class*="size-"]) {
+  width: calc(var(--spacing) * 3.5);
+  height: calc(var(--spacing) * 3.5);
+}
+.ui-button-base:where(
+    :not(.ui-button-size-xs, .ui-button-size-sm, .ui-button-size-icon-xs)
+  ):not(#\#):not(#\#):not(#\#)
+  svg:not([class*="size-"]) {
+  width: calc(var(--spacing) * 4);
+  height: calc(var(--spacing) * 4);
+}
+@media (hover: hover) {
+  .ui-button-variant-default:not(#\#):not(#\#):not(#\#):is(a):hover {
+    background-color: var(--primary);
+  }
+}
+@media (hover: hover) {
+  @supports (color: color-mix(in lab, red, red)) {
+    .ui-button-variant-default:not(#\#):not(#\#):not(#\#):is(a):hover {
+      background-color: color-mix(in oklab, var(--primary) 80%, transparent);
+    }
+  }
+}

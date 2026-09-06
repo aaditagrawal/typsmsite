@@ -1,3 +1,5 @@
+import * as stylex from "@stylexjs/stylex"
+import { styles } from "../styles/site.stylex"
 import { motion } from "motion/react"
 import type { ReactNode } from "react"
 
@@ -8,10 +10,16 @@ interface FeatureCardProps {
   index: number
 }
 
-export function FeatureCard({ icon, title, description, index }: FeatureCardProps) {
+/** Display one capability with the existing scroll-triggered reveal. */
+export function FeatureCard({
+  icon,
+  title,
+  description,
+  index,
+}: FeatureCardProps) {
   return (
     <motion.div
-      className="border border-white/5 bg-surface-elevated p-6 transition-colors hover:border-brand/30"
+      {...stylex.props(styles.featureCard)}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -21,11 +29,9 @@ export function FeatureCard({ icon, title, description, index }: FeatureCardProp
         ease: [0.25, 0.1, 0.25, 1],
       }}
     >
-      <div className="mb-4 flex h-10 w-10 items-center justify-center border border-white/10 text-brand">
-        {icon}
-      </div>
-      <h3 className="mb-2 text-sm font-semibold">{title}</h3>
-      <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
+      <div {...stylex.props(styles.featureIcon)}>{icon}</div>
+      <h3 {...stylex.props(styles.featureTitle)}>{title}</h3>
+      <p {...stylex.props(styles.featureDescription)}>{description}</p>
     </motion.div>
   )
 }

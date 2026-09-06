@@ -1,3 +1,5 @@
+import * as stylex from "@stylexjs/stylex"
+import { styles } from "../styles/site.stylex"
 import { useEffect, useState } from "react"
 
 type Platform = "macos-arm64" | "macos-x64" | "linux-x64" | "windows-x64"
@@ -41,6 +43,7 @@ const PLATFORMS: Record<Platform, PlatformInfo> = {
   },
 }
 
+/** Choose the initial download target after client hydration. */
 function detectPlatform(): Platform {
   if (typeof navigator === "undefined") return "macos-arm64"
 
@@ -54,7 +57,8 @@ function detectPlatform(): Platform {
   if (ua.includes("mac") || platform.includes("mac")) {
     // navigator.platform is "MacIntel" even on ARM Macs in some browsers,
     // but we can check userAgentData if available
-    const uaData = (navigator as { userAgentData?: { architecture?: string } }).userAgentData
+    const uaData = (navigator as { userAgentData?: { architecture?: string } })
+      .userAgentData
     if (uaData?.architecture === "arm") return "macos-arm64"
     // Default to ARM since most new Macs are Apple Silicon
     return "macos-arm64"
@@ -63,21 +67,28 @@ function detectPlatform(): Platform {
   return "macos-arm64"
 }
 
-const REPO_API = "https://api.github.com/repos/aaditagrawal/typsmthng-desktop/releases"
-const RELEASES_PAGE = "https://github.com/aaditagrawal/typsmthng-desktop/releases"
+const REPO_API =
+  "https://api.github.com/repos/aaditagrawal/typsmthng-desktop/releases"
+const RELEASES_PAGE =
+  "https://github.com/aaditagrawal/typsmthng-desktop/releases"
 
 interface DownloadButtonProps {
   variant?: "primary" | "outline"
   className?: string
 }
 
-export function DownloadButton({ variant = "outline", className = "" }: DownloadButtonProps) {
+/** Resolve release assets and let visitors choose their desktop platform. */
+export function DownloadButton({
+  variant = "outline",
+  className = "",
+}: DownloadButtonProps) {
   const [platform, setPlatform] = useState<Platform>("macos-arm64")
   const [release, setRelease] = useState<ReleaseInfo | null>(null)
   const [showPicker, setShowPicker] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Detect after hydration so the first render matches the server HTML.
     setPlatform(detectPlatform())
   }, [])
 
@@ -96,22 +107,24 @@ export function DownloadButton({ variant = "outline", className = "" }: Download
   }, [])
 
   const downloadUrl = release
-    ? release.assets.find((a) => PLATFORMS[platform].match(a.name))?.browser_download_url
+    ? release.assets.find((a) => PLATFORMS[platform].match(a.name))
+        ?.browser_download_url
     : null
 
   const version = release?.tag_name
 
-  const baseStyles =
-    variant === "primary"
-      ? "bg-brand text-brand-foreground hover:opacity-90"
-      : "border border-white/10 text-foreground hover:border-white/25"
-
   return (
-    <div className={`relative inline-flex ${className}`}>
+    <div
+      className={`${stylex.props(styles.downloadWrapper).className} ${className}`}
+    >
       {/* Main download button */}
       <a
         href={downloadUrl ?? RELEASES_PAGE}
-        className={`inline-flex items-center px-6 py-3 text-sm font-medium transition-all ${baseStyles}`}
+        {...stylex.props(
+          variant === "primary"
+            ? styles.downloadMainPrimary
+            : styles.downloadMainOutline
+        )}
         target={downloadUrl ? undefined : "_blank"}
         rel={downloadUrl ? undefined : "noopener noreferrer"}
       >
@@ -121,7 +134,7 @@ export function DownloadButton({ variant = "outline", className = "" }: Download
           <>
             Download for {PLATFORMS[platform].shortLabel}
             {version && (
-              <span className="ml-2 text-xs opacity-60">{version}</span>
+              <span {...stylex.props(styles.downloadVersion)}>{version}</span>
             )}
           </>
         )}
@@ -130,7 +143,11 @@ export function DownloadButton({ variant = "outline", className = "" }: Download
       {/* Platform picker toggle */}
       <button
         onClick={() => setShowPicker((prev) => !prev)}
-        className={`inline-flex items-center border-l border-white/10 px-3 py-3 text-sm transition-all ${baseStyles}`}
+        {...stylex.props(
+          variant === "primary"
+            ? styles.downloadTogglePrimary
+            : styles.downloadToggleOutline
+        )}
         aria-label="Choose platform"
       >
         <svg
@@ -142,7 +159,9 @@ export function DownloadButton({ variant = "outline", className = "" }: Download
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`transition-transform ${showPicker ? "rotate-180" : ""}`}
+          {...stylex.props(
+            showPicker ? styles.downloadChevronOpen : styles.downloadChevron
+          )}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
@@ -153,10 +172,10 @@ export function DownloadButton({ variant = "outline", className = "" }: Download
         <>
           {/* Click-away overlay */}
           <div
-            className="fixed inset-0 z-40"
+            {...stylex.props(styles.downloadBackdrop)}
             onClick={() => setShowPicker(false)}
           />
-          <div className="absolute top-full right-0 z-50 mt-2 min-w-[200px] border border-white/10 bg-background py-1">
+          <div {...stylex.props(styles.downloadMenu)}>
             {(Object.entries(PLATFORMS) as [Platform, PlatformInfo][]).map(
               ([key, info]) => (
                 <button
@@ -165,11 +184,11 @@ export function DownloadButton({ variant = "outline", className = "" }: Download
                     setPlatform(key)
                     setShowPicker(false)
                   }}
-                  className={`flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors hover:bg-surface-elevated ${
+                  {...stylex.props(
                     platform === key
-                      ? "text-brand"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
+                      ? styles.downloadSelected
+                      : styles.downloadUnselected
+                  )}
                 >
                   {platform === key && (
                     <svg
@@ -185,21 +204,25 @@ export function DownloadButton({ variant = "outline", className = "" }: Download
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   )}
-                  <span className={platform === key ? "" : "ml-5"}>
+                  <span
+                    {...stylex.props(platform !== key && styles.downloadIndent)}
+                  >
                     {info.label}
                   </span>
                 </button>
               )
             )}
-            <div className="mx-4 my-1 border-t border-white/5" />
+            <div {...stylex.props(styles.downloadDivider)} />
             <a
               href={RELEASES_PAGE}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-muted-foreground transition-colors hover:bg-surface-elevated hover:text-foreground"
+              {...stylex.props(styles.downloadReleases)}
               onClick={() => setShowPicker(false)}
             >
-              <span className="ml-5">All releases</span>
+              <span {...stylex.props(styles.downloadReleaseIndent)}>
+                All releases
+              </span>
             </a>
           </div>
         </>

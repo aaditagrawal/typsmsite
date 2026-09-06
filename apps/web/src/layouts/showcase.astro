@@ -1,4 +1,6 @@
 ---
+import * as stylex from "@stylexjs/stylex"
+import { styles } from "../styles/site.stylex"
 import "@workspace/ui/globals.css"
 ---
 
@@ -9,12 +11,18 @@ import "@workspace/ui/globals.css"
     <meta name="color-scheme" content="dark" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>typsmthng -A modern Typst editor</title>
-    <meta name="description" content="A modern Typst editor for the web and desktop. Write beautiful documents with live preview, browser-native compilation, and native desktop performance." />
+    <meta
+      name="description"
+      content="A modern Typst editor for the web and desktop. Write beautiful documents with live preview, browser-native compilation, and native desktop performance."
+    />
     <meta property="og:title" content="typsmthng -A modern Typst editor" />
-    <meta property="og:description" content="Write beautiful documents with live preview, browser-native compilation, and native desktop performance." />
+    <meta
+      property="og:description"
+      content="Write beautiful documents with live preview, browser-native compilation, and native desktop performance."
+    />
     <meta property="og:type" content="website" />
   </head>
-  <body class="bg-background text-foreground font-mono antialiased">
+  <body class={stylex.props(styles.body).className}>
     <slot />
   </body>
 </html>

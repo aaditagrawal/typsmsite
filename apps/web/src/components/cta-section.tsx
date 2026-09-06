@@ -1,12 +1,15 @@
+import * as stylex from "@stylexjs/stylex"
+import { styles } from "../styles/site.stylex"
 import { motion } from "motion/react"
 import { DownloadButton } from "./download-button"
 
+/** Render the final web and desktop actions with their existing reveal animation. */
 export function CtaSection() {
   return (
-    <section id="cta" className="relative scroll-mt-20 py-24 md:py-40">
+    <section id="cta" {...stylex.props(styles.cta)}>
       {/* Background glow */}
       <div
-        className="pointer-events-none absolute inset-0 z-0"
+        {...stylex.props(styles.ctaGlow)}
         style={{
           background:
             "radial-gradient(ellipse at center bottom, var(--brand-glow) 0%, transparent 60%)",
@@ -16,26 +19,25 @@ export function CtaSection() {
       />
 
       <motion.div
-        className="relative z-10 mx-auto max-w-2xl px-6 text-center"
+        {...stylex.props(styles.ctaContent)}
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
-          Start writing.
-        </h2>
-        <p className="mt-4 text-base text-muted-foreground md:text-lg">
-          Beautiful typesetting without the complexity. Pick your platform and go.
+        <h2 {...stylex.props(styles.ctaHeading)}>Start writing.</h2>
+        <p {...stylex.props(styles.ctaDescription)}>
+          Beautiful typesetting without the complexity. Pick your platform and
+          go.
         </p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div {...stylex.props(styles.ctaActions)}>
           <a
             href="https://typsmthng.coolstuff.work"
-            className="inline-flex items-center bg-brand px-6 py-3 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90"
+            {...stylex.props(styles.ctaWebLink)}
           >
             Try Web App
-            <span className="ml-2">→</span>
+            <span {...stylex.props(styles.ctaArrow)}>→</span>
           </a>
           <DownloadButton />
         </div>

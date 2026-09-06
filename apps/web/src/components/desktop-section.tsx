@@ -1,3 +1,5 @@
+import * as stylex from "@stylexjs/stylex"
+import { styles } from "../styles/site.stylex"
 import { motion } from "motion/react"
 import { DownloadButton } from "./download-button"
 import { ScreenshotGlow } from "./screenshot-glow"
@@ -10,40 +12,39 @@ const points = [
   "Offline-first // works without an internet connection",
 ]
 
+/** Present desktop capabilities, screenshot, and platform-aware download control. */
 export function DesktopSection() {
   return (
-    <section id="desktop" className="scroll-mt-20 py-20 md:py-32">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-2 md:gap-16">
+    <section id="desktop" {...stylex.props(styles.desktop)}>
+      <div {...stylex.props(styles.desktopGrid)}>
         {/* Screenshot (left on desktop) */}
         <ScreenshotGlow
           src="/screenshots/app-desktop.png"
           alt="typsmthng desktop app showing project management interface"
-          className="order-2 md:order-1"
+          {...stylex.props(styles.desktopScreenshot)}
         />
 
         {/* Text (right on desktop) */}
         <motion.div
-          className="order-1 md:order-2"
+          {...stylex.props(styles.desktopContent)}
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-brand">
-            Desktop
-          </p>
-          <h2 className="text-2xl font-bold tracking-tight md:text-4xl">
+          <p {...stylex.props(styles.desktopEyebrow)}>Desktop</p>
+          <h2 {...stylex.props(styles.desktopHeading)}>
             typsmthng for Desktop
           </h2>
-          <ul className="mt-6 space-y-3">
+          <ul {...stylex.props(styles.desktopPoints)} data-stack="">
             {points.map((point) => (
-              <li key={point} className="flex items-start gap-3 text-sm text-muted-foreground">
-                <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 bg-brand" />
+              <li key={point} {...stylex.props(styles.desktopPoint)}>
+                <span {...stylex.props(styles.desktopBullet)} />
                 {point}
               </li>
             ))}
           </ul>
-          <div className="mt-8">
+          <div {...stylex.props(styles.desktopActions)}>
             <DownloadButton />
           </div>
         </motion.div>
