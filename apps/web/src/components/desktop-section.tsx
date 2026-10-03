@@ -5,10 +5,10 @@ import { DownloadButton } from "./download-button"
 import { ScreenshotGlow } from "./screenshot-glow"
 
 const points = [
-  "Native performance via Electrobun // no Electron overhead",
+  "Native GTK interface with a Rust backend",
   "Direct filesystem access // edit .typ files from your disk",
   "Full-text search across all your projects",
-  "System integration with native window effects",
+  "System fonts and native desktop controls",
   "Offline-first // works without an internet connection",
 ]
 
