@@ -1,8 +1,7 @@
+import { detectPlatform, PLATFORMS, type Platform } from "../lib/download-platform"
 import * as stylex from "@stylexjs/stylex"
 import { styles } from "../styles/site.stylex"
 import { useEffect, useState } from "react"
-
-type Platform = "macos-arm64" | "macos-x64" | "linux-x64" | "windows-x64"
 
 interface ReleaseAsset {
   name: string
@@ -12,59 +11,6 @@ interface ReleaseAsset {
 interface ReleaseInfo {
   tag_name: string
   assets: ReleaseAsset[]
-}
-
-interface PlatformInfo {
-  label: string
-  shortLabel: string
-  match: (name: string) => boolean
-}
-
-const PLATFORMS: Record<Platform, PlatformInfo> = {
-  "macos-arm64": {
-    label: "macOS (Apple Silicon)",
-    shortLabel: "macOS",
-    match: (name) => name.includes("macos-arm64") && name.endsWith(".dmg"),
-  },
-  "macos-x64": {
-    label: "macOS (Intel)",
-    shortLabel: "macOS Intel",
-    match: (name) => name.includes("macos-x64") && name.endsWith(".dmg"),
-  },
-  "linux-x64": {
-    label: "Linux (x64)",
-    shortLabel: "Linux",
-    match: (name) => name.includes("linux-x64"),
-  },
-  "windows-x64": {
-    label: "Windows (x64)",
-    shortLabel: "Windows",
-    match: (name) => name.includes("win-x64"),
-  },
-}
-
-/** Choose the initial download target after client hydration. */
-function detectPlatform(): Platform {
-  if (typeof navigator === "undefined") return "macos-arm64"
-
-  const ua = navigator.userAgent.toLowerCase()
-  const platform = (navigator.platform || "").toLowerCase()
-
-  if (ua.includes("win")) return "windows-x64"
-  if (ua.includes("linux")) return "linux-x64"
-
-  // macOS: check for Apple Silicon
-  if (ua.includes("mac") || platform.includes("mac")) {
-    // navigator.platform is "MacIntel" even on ARM Macs in some browsers,
-    // but we can check userAgentData if available
-    const uaData = (navigator as { userAgentData?: { architecture?: string } })
-      .userAgentData
-    if (uaData?.architecture === "arm") return "macos-arm64"
-    // Default to ARM since most new Macs are Apple Silicon
-    return "macos-arm64"
-  }
-
-  return "macos-arm64"
 }
 
 const REPO_API =
@@ -82,7 +28,7 @@ export function DownloadButton({
   variant = "outline",
   className = "",
 }: DownloadButtonProps) {
-  const [platform, setPlatform] = useState<Platform>("macos-arm64")
+  const [platform, setPlatform] = useState<Platform | null>(null)
   const [release, setRelease] = useState<ReleaseInfo | null>(null)
   const [showPicker, setShowPicker] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -106,7 +52,7 @@ export function DownloadButton({
       .finally(() => setLoading(false))
   }, [])
 
-  const downloadUrl = release
+  const downloadUrl = release && platform
     ? release.assets.find((a) => PLATFORMS[platform].match(a.name))
         ?.browser_download_url
     : null
@@ -132,7 +78,7 @@ export function DownloadButton({
           "Download Desktop"
         ) : (
           <>
-            Download for {PLATFORMS[platform].shortLabel}
+            {platform ? `Download for ${PLATFORMS[platform].shortLabel}` : "Download Desktop"}
             {version && (
               <span {...stylex.props(styles.downloadVersion)}>{version}</span>
             )}
