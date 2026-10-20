@@ -5,15 +5,7 @@ export function CtaSection() {
   return (
     <section id="cta" className="relative scroll-mt-20 py-24 md:py-40">
       {/* Background glow */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at center bottom, var(--brand-glow) 0%, transparent 60%)",
-          filter: "blur(80px)",
-          opacity: 0.25,
-        }}
-      />
+      <div className="cta-glow pointer-events-none absolute inset-0 z-0" />
 
       <motion.div
         className="relative z-10 mx-auto max-w-2xl px-6 text-center"

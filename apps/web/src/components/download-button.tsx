@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useSyncExternalStore } from "react"
 
 type Platform = "macos-arm64" | "macos-x64" | "linux-x64" | "windows-x64"
 
@@ -54,7 +54,8 @@ function detectPlatform(): Platform {
   if (ua.includes("mac") || platform.includes("mac")) {
     // navigator.platform is "MacIntel" even on ARM Macs in some browsers,
     // but we can check userAgentData if available
-    const uaData = (navigator as { userAgentData?: { architecture?: string } }).userAgentData
+    const uaData = (navigator as { userAgentData?: { architecture?: string } })
+      .userAgentData
     if (uaData?.architecture === "arm") return "macos-arm64"
     // Default to ARM since most new Macs are Apple Silicon
     return "macos-arm64"
@@ -63,23 +64,33 @@ function detectPlatform(): Platform {
   return "macos-arm64"
 }
 
-const REPO_API = "https://api.github.com/repos/aaditagrawal/typsmthng-desktop/releases"
-const RELEASES_PAGE = "https://github.com/aaditagrawal/typsmthng-desktop/releases"
+const subscribeToPlatform = () => () => {}
+const serverPlatform = (): Platform => "macos-arm64"
+
+const REPO_API =
+  "https://api.github.com/repos/aaditagrawal/typsmthng-desktop/releases"
+const RELEASES_PAGE =
+  "https://github.com/aaditagrawal/typsmthng-desktop/releases"
 
 interface DownloadButtonProps {
   variant?: "primary" | "outline"
   className?: string
 }
 
-export function DownloadButton({ variant = "outline", className = "" }: DownloadButtonProps) {
-  const [platform, setPlatform] = useState<Platform>("macos-arm64")
+export function DownloadButton({
+  variant = "outline",
+  className = "",
+}: DownloadButtonProps) {
+  const detectedPlatform = useSyncExternalStore(
+    subscribeToPlatform,
+    detectPlatform,
+    serverPlatform
+  )
+  const [selectedPlatform, setPlatform] = useState<Platform | null>(null)
+  const platform = selectedPlatform ?? detectedPlatform
   const [release, setRelease] = useState<ReleaseInfo | null>(null)
   const [showPicker, setShowPicker] = useState(false)
   const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    setPlatform(detectPlatform())
-  }, [])
 
   useEffect(() => {
     fetch(REPO_API)
@@ -96,7 +107,8 @@ export function DownloadButton({ variant = "outline", className = "" }: Download
   }, [])
 
   const downloadUrl = release
-    ? release.assets.find((a) => PLATFORMS[platform].match(a.name))?.browser_download_url
+    ? release.assets.find((a) => PLATFORMS[platform].match(a.name))
+        ?.browser_download_url
     : null
 
   const version = release?.tag_name
@@ -156,7 +168,7 @@ export function DownloadButton({ variant = "outline", className = "" }: Download
             className="fixed inset-0 z-40"
             onClick={() => setShowPicker(false)}
           />
-          <div className="absolute top-full right-0 z-50 mt-2 min-w-[200px] border border-white/10 bg-background py-1">
+          <div className="absolute top-full right-0 z-50 mt-2 min-w-50 border border-white/10 bg-background py-1">
             {(Object.entries(PLATFORMS) as [Platform, PlatformInfo][]).map(
               ([key, info]) => (
                 <button

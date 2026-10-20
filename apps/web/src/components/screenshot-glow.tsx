@@ -16,14 +16,7 @@ export function ScreenshotGlow({ src, alt, className = "" }: ScreenshotGlowProps
       transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
     >
       {/* Glow effect */}
-      <div
-        className="pointer-events-none absolute -inset-8 z-0"
-        style={{
-          background: "radial-gradient(ellipse at center, var(--brand-glow) 0%, transparent 70%)",
-          filter: "blur(48px)",
-          animation: "glow-pulse 4s ease-in-out infinite",
-        }}
-      />
+      <div className="screenshot-glow pointer-events-none absolute -inset-8 z-0" />
       {/* Screenshot */}
       <img
         src={src}
