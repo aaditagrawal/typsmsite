@@ -8,7 +8,8 @@
     "lint": "turbo lint",
     "format": "turbo format",
     "typecheck": "turbo typecheck",
-    "dev:portless": "portless run"
+    "dev:portless": "portless run",
+    "test:security": "node scripts/security-braces.mjs"
   },
   "devDependencies": {
     "@shadcn/lint": "^0.2.3",
@@ -26,5 +27,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "patchedDependencies": {
+    "braces@3.0.3": "patches/braces@3.0.3.patch"
+  }
 }
