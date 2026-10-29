@@ -1,4 +1,9 @@
-import { detectPlatform, PLATFORMS, type Platform } from "../lib/download-platform"
+import {
+  detectPlatform,
+  PLATFORMS,
+  type Platform,
+  type PlatformInfo,
+} from "../lib/download-platform"
 import * as stylex from "@stylexjs/stylex"
 import { styles } from "../styles/site.stylex"
 import { useEffect, useState } from "react"
@@ -52,10 +57,11 @@ export function DownloadButton({
       .finally(() => setLoading(false))
   }, [])
 
-  const downloadUrl = release && platform
-    ? release.assets.find((a) => PLATFORMS[platform].match(a.name))
-        ?.browser_download_url
-    : null
+  const downloadUrl =
+    release && platform
+      ? release.assets.find((a) => PLATFORMS[platform].match(a.name))
+          ?.browser_download_url
+      : null
 
   const version = release?.tag_name
 
@@ -78,7 +84,9 @@ export function DownloadButton({
           "Download Desktop"
         ) : (
           <>
-            {platform ? `Download for ${PLATFORMS[platform].shortLabel}` : "Download Desktop"}
+            {platform
+              ? `Download for ${PLATFORMS[platform].shortLabel}`
+              : "Download Desktop"}
             {version && (
               <span {...stylex.props(styles.downloadVersion)}>{version}</span>
             )}
