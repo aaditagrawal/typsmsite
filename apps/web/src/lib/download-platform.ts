@@ -1,6 +1,6 @@
 export type Platform = "macos-arm64" | "macos-x64" | "linux-x64" | "windows-x64"
 
-interface PlatformInfo {
+export interface PlatformInfo {
   label: string
   shortLabel: string
   match: (name: string) => boolean
@@ -30,11 +30,13 @@ export const PLATFORMS: Record<Platform, PlatformInfo> = {
 }
 
 /** Pick only targets the browser can identify, leaving unknown Mac CPUs to the picker. */
-export function detectPlatform(navigatorInfo: {
-  userAgent: string
-  platform: string
-  userAgentData?: { architecture?: string }
-} | null = typeof navigator === "undefined" ? null : navigator): Platform | null {
+export function detectPlatform(
+  navigatorInfo: {
+    userAgent: string
+    platform: string
+    userAgentData?: { architecture?: string }
+  } | null = typeof navigator === "undefined" ? null : navigator
+): Platform | null {
   if (!navigatorInfo) return null
   const ua = navigatorInfo.userAgent.toLowerCase()
   const platform = navigatorInfo.platform.toLowerCase()
@@ -47,4 +49,3 @@ export function detectPlatform(navigatorInfo: {
   }
   return null
 }
-

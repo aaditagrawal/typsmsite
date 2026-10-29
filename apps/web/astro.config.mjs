@@ -1,7 +1,6 @@
 // @ts-check
 import { fileURLToPath } from "node:url"
 import { transformAsync } from "@babel/core"
-import stylexBabel from "@stylexjs/babel-plugin"
 import stylexPostcss from "@stylexjs/postcss-plugin"
 import { defineConfig } from "astro/config"
 import react from "@astrojs/react"
@@ -20,10 +19,13 @@ export default defineConfig({
             babelrc: false,
             configFile: false,
             sourceMaps: true,
-            plugins: [[stylexBabel, stylex]],
+            plugins: [["@stylexjs/babel-plugin", stylex]],
           })
           if (!result?.code) return
-          return { code: result.code, map: result.map }
+          return {
+            code: result.code,
+            map: result.map ? JSON.stringify(result.map) : null,
+          }
         },
       },
     ],
@@ -37,7 +39,7 @@ export default defineConfig({
                 new URL("../../packages/ui/src/**/*.stylex.js", import.meta.url)
               ),
             ],
-            babelConfig: { plugins: [[stylexBabel, stylex]] },
+            babelConfig: { plugins: [["@stylexjs/babel-plugin", stylex]] },
           }),
         ],
       },
