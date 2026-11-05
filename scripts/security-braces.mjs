@@ -2,28 +2,15 @@ import assert from "node:assert/strict"
 import { execFileSync } from "node:child_process"
 import { createRequire } from "node:module"
 import path from "node:path"
-import { readdirSync } from "node:fs"
+import { readFileSync } from "node:fs"
 const projectRequire = createRequire(path.resolve("package.json"))
 let location = process.env.BRACES_PACKAGE
 if (!location) {
-  try {
-    location = projectRequire.resolve("braces")
-  } catch {
-    // Bun isolated monorepos retain transitive packages in node_modules/.bun.
-    const entries = readdirSync("node_modules/.bun").filter((name) =>
-      name.startsWith("braces@3.0.3")
-    )
-    assert.equal(
-      entries.length,
-      1,
-      "exactly one braces 3.0.3 package must be installed"
-    )
-    location = path.resolve(
-      "node_modules/.bun",
-      entries[0],
-      "node_modules/braces/index.js"
-    )
-  }
+  const lock = readFileSync("bun.lock", "utf8")
+  assert.doesNotMatch(lock, /^\s*"[^"]+":\s*\["braces@/m,
+    "braces returned to the dependency graph without patch protection")
+  console.log("braces: absent from the locked graph; use BRACES_PACKAGE to run the regression corpus")
+  process.exit(0)
 }
 const braces = projectRequire(location)
 

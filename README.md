@@ -9,7 +9,7 @@ Product showcase for [typsmthng](https://typsmthng.coolstuff.work).
 
 ## Stack
 
-Astro, React, Tailwind CSS 4, Motion, shadcn/ui
+Astro, React, Tailwind CSS 4, Motion
 
 ## Structure
 
